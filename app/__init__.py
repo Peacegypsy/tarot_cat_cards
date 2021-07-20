@@ -18,7 +18,9 @@ def create_app():
 
     # Import models here for Alembic setup
     # from app.models.ExampleModel import ExampleModel
-
+    from .routes import hello_world_bp
+    app.register_blueprint(hello_world_bp)
+    
     db.init_app(app)
     migrate.init_app(app, db)
 
