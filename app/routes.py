@@ -5,6 +5,7 @@ from app.models.layout import Layout
 import os
 from dotenv import load_dotenv
 from random import randint
+import random
 
 # example_bp = Blueprint('example_bp', __name__)
 layout_bp = Blueprint("layout", __name__, url_prefix="/layout")
@@ -21,20 +22,27 @@ def hello_world():
     return my_beautiful_response_body
 
 
-@layout_bp.route("/layout", methods=["GET"])
+@layout_bp.route("/paw", methods=["GET"])
 def get_paw_layout():
-    row_nums = []
-    num = randint(0, 5)
-    for x in range(0, 5):
-        row_nums.append(num)
-        num += 1
-    return jsonify(row_nums)
+    cards = Card.query.all()
+    ranCards= [random.sample(cards, 1) for x in range(3)]
+    layout_response = []
+    # print(ranCards)
+    for element in ranCards:
+        for card in element:
+            layout_response.append(
+                {
+                    "card name": card.card_name,
+                    "general": card.card_general,})
+    
+    return jsonify(layout_response)
 
 
 @cards_bp.route("", methods=["GET", "POST"])
 def get_cards():
     if request.method == "GET":
         cards = Card.query.all()
+        print(cards)
         cards_response = []
         for card in cards:
             cards_response.append(
