@@ -21,6 +21,9 @@ def create_app():
     from .routes import hello_world_bp
     app.register_blueprint(hello_world_bp)
     
+    from .routes import cards_bp
+    app.register_blueprint(cards_bp)
+    
     db.init_app(app)
     migrate.init_app(app, db)
 
