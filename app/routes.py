@@ -15,29 +15,34 @@ cards_bp = Blueprint("cards", __name__, url_prefix="/cards")
 
 load_dotenv()
 
-
+# generic route to test it works
 @hello_world_bp.route("/hello-world", methods=["GET"])
 def hello_world():
     my_beautiful_response_body = "Hello, World!"
     return my_beautiful_response_body
 
-
+#route to get paw print layout
 @layout_bp.route("/paw", methods=["GET"])
 def get_paw_layout():
     cards = Card.query.all()
-    ranCards= [random.sample(cards, 1) for x in range(3)]
+    ranCards = [random.sample(cards, 1) for x in range(5)]
     layout_response = []
     # print(ranCards)
     for element in ranCards:
         for card in element:
             layout_response.append(
                 {
-                    "card name": card.card_name,
-                    "general": card.card_general,})
+                    "placement": ranCards.index(element),
+                    "id": card.card_id,
+                    "name": card.card_name,
+                    "general": card.card_general,
+                    "upright": card.card_upright,
+                    "reversed": card.card_reversed,
+                    })
     
     return jsonify(layout_response)
 
-
+#route to get all the cards or post a new one
 @cards_bp.route("", methods=["GET", "POST"])
 def get_cards():
     if request.method == "GET":
