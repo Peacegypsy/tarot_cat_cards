@@ -57,7 +57,6 @@ def get_cards():
                     "card_general": card.card_general,
                     "card_upright": card.card_upright,
                     "card_reversed": card.card_reversed,
-                    # <img src="{{ url_for('static', filename='images/' + card.card_image_location) }}">
                 }
             )
         return jsonify(cards_response)
