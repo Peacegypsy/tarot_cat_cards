@@ -52,28 +52,28 @@ def get_cards():
         for card in cards:
             cards_response.append(
                 {
-                    "card ID": card.id,
-                    "card_name": card.name,
-                    "card_general": card.general,
-                    "card_upright": card.upright,
-                    "card_reversed": card.reversed,
+                    "id": card.id,
+                    "name": card.name,
+                    "general": card.general,
+                    "upright": card.upright,
+                    "reversed": card.reversed,
                 }
             )
         return jsonify(cards_response)
 
     elif request.method == "POST":
         request_body = request.get_json()
-        card_name = request_body.get("name")
-        card_general = request_body.get("general")
-        card_upright = request_body.get("upright")
-        card_reversed = request_body.get("reversed")
-        card_image_location = request_body.get("image_location")
+        name = request_body.get("name")
+        general = request_body.get("general")
+        upright = request_body.get("upright")
+        reversed = request_body.get("reversed")
+        image_location = request_body.get("image_location")
         new_card = Card(
-            card_name=request_body["name"],
-            card_general=request_body["general"],
-            card_upright=request_body["upright"],
-            card_reversed=request_body["reversed"],
-            card_image_location=request_body["image_location"],
+            name=request_body["name"],
+            general=request_body["general"],
+            upright=request_body["upright"],
+            reversed=request_body["reversed"],
+            image_location=request_body["image_location"],
         )
         db.session.add(new_card)
         db.session.commit()
