@@ -38,6 +38,7 @@ def get_paw_layout():
                     "general": card.card_general,
                     "upright": card.card_upright,
                     "reversed": card.card_reversed,
+                    "image_location": "static/"+card.card_image_location[4:]
                     })
     
     return jsonify(layout_response)
