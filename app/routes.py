@@ -33,11 +33,11 @@ def get_paw_layout():
             layout_response.append(
                 {
                     "placement": ranCards.index(element),
-                    "id": card.card_id,
-                    "name": card.card_name,
-                    "general": card.card_general,
-                    "upright": card.card_upright,
-                    "reversed": card.card_reversed,
+                    "id": card.id,
+                    "name": card.name,
+                    "general": card.general,
+                    "upright": card.upright,
+                    "reversed": card.reversed,
                     })
     
     return jsonify(layout_response)
@@ -52,30 +52,30 @@ def get_cards():
         for card in cards:
             cards_response.append(
                 {
-                    "card ID": card.card_id,
-                    "card_name": card.card_name,
-                    "card_general": card.card_general,
-                    "card_upright": card.card_upright,
-                    "card_reversed": card.card_reversed,
+                    "card ID": card.id,
+                    "card_name": card.name,
+                    "card_general": card.general,
+                    "card_upright": card.upright,
+                    "card_reversed": card.reversed,
                 }
             )
         return jsonify(cards_response)
 
     elif request.method == "POST":
         request_body = request.get_json()
-        card_name = request_body.get("card_name")
-        card_general = request_body.get("card_general")
-        card_upright = request_body.get("card_upright")
-        card_reversed = request_body.get("card_reversed")
-        card_image_location = request_body.get("card_image_location")
+        card_name = request_body.get("name")
+        card_general = request_body.get("general")
+        card_upright = request_body.get("upright")
+        card_reversed = request_body.get("reversed")
+        card_image_location = request_body.get("image_location")
         new_card = Card(
-            card_name=request_body["card_name"],
-            card_general=request_body["card_general"],
-            card_upright=request_body["card_upright"],
-            card_reversed=request_body["card_reversed"],
-            card_image_location=request_body["card_image_location"],
+            card_name=request_body["name"],
+            card_general=request_body["general"],
+            card_upright=request_body["upright"],
+            card_reversed=request_body["reversed"],
+            card_image_location=request_body["image_location"],
         )
         db.session.add(new_card)
         db.session.commit()
 
-    return make_response(f"Card {new_card.card_name} successfully created", 201)
+    return make_response(f"Card {new_card.name} successfully created", 201)
