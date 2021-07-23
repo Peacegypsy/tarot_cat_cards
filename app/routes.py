@@ -25,7 +25,7 @@ def hello_world():
 @layout_bp.route("/paw", methods=["GET"])
 def get_paw_layout():
     cards = Card.query.all()
-    ranCards = [random.sample(cards, 1) for x in range(5)]
+    ranCards = [random.sample(cards, 3)];
     layout_response = []
     # print(ranCards)
     for element in ranCards:
