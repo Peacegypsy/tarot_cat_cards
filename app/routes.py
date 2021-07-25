@@ -9,7 +9,7 @@ import random
 
 # example_bp = Blueprint('example_bp', __name__)
 layout_bp = Blueprint("layout", __name__, url_prefix="/layout")
-hello_world_bp = Blueprint("hello_world", __name__)
+hello_world_bp = Blueprint("", __name__)
 cards_bp = Blueprint("cards", __name__, url_prefix="/cards")
 
 
@@ -18,14 +18,14 @@ load_dotenv()
 # generic route to test it works
 @hello_world_bp.route("/hello-world", methods=["GET"])
 def hello_world():
-    my_beautiful_response_body = "Hello, World!"
+    my_beautiful_response_body = "Greetings from the Cat Realm"
     return my_beautiful_response_body
 
 #route to get paw print layout
 @layout_bp.route("/paw", methods=["GET"])
 def get_paw_layout():
     cards = Card.query.all()
-    ranCards = [random.sample(cards, 3)];
+    ranCards = [random.sample(cards, 5)];
     layout_response = []
     # print(ranCards)
     for element in ranCards:
