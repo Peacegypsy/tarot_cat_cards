@@ -9,14 +9,14 @@ import random
 
 # example_bp = Blueprint('example_bp', __name__)
 layout_bp = Blueprint("layout", __name__, url_prefix="/layout")
-hello_world_bp = Blueprint("", __name__)
+hello_world_bp = Blueprint("", __name__, url_prefix="/")
 cards_bp = Blueprint("cards", __name__, url_prefix="/cards")
 
 
 load_dotenv()
 
 # generic route to test it works
-@hello_world_bp.route("/hello-world", methods=["GET"])
+@hello_world_bp.route("", methods=["GET"])
 def hello_world():
     my_beautiful_response_body = "Greetings from the Cat Realm"
     return my_beautiful_response_body
@@ -27,20 +27,30 @@ def get_paw_layout():
     cards = Card.query.all()
     ranCards = [random.sample(cards, 5)];
     layout_response = []
-    # print(ranCards)
+    
     for element in ranCards:
         for card in element:
-            layout_response.append(
-                {
-                    "placement": ranCards.index(element),
-                    "card_id": card.card_id,
-                    "card_name": card.card_name,
-                    "card_general": card.card_general,
-                    "card_upright": card.card_upright,
-                    "card_reversed": card.card_reversed,
-                    "card_image": card.card_image_location
-                    })
-    
+            cardDir = random.choice([True, False])
+            if cardDir == True:
+                layout_response.append(
+                    {
+                        "card_id": card.card_id,
+                        "card_name": card.card_name,
+                        "card_general": card.card_general,
+                        "card_upright": card.card_upright,
+                        "card_image": card.card_image_location,
+                        "direction": cardDir,
+                        })
+            elif cardDir == False:
+                layout_response.append(
+                    {
+                        "card_id": card.card_id,
+                        "card_name": card.card_name,
+                        "card_general": card.card_general,
+                        "card_reversed": card.card_reversed,
+                        "card_image": card.card_image_location,
+                        "direction": cardDir,
+                    })  
     return jsonify(layout_response)
 
 #route to get all the cards or post a new one
@@ -48,19 +58,19 @@ def get_paw_layout():
 def get_cards():
     if request.method == "GET":
         cards = Card.query.all()
-        print(cards)
         cards_response = []
         for card in cards:
-            cards_response.append(
-                {
-                    "card_id": card.card_id,
-                    "card_name": card.card_name,
-                    "card_general": card.card_general,
-                    "card_upright": card.card_upright,
-                    "card_reversed": card.card_reversed,
-                    "image-location": card.card_image_location
-                }
+                cards_response.append(
+                    {
+                        "card_id": card.card_id,
+                        "card_name": card.card_name,
+                        "card_general": card.card_general,
+                        "card_upright": card.card_upright,
+                        "card_reversed": card.card_reversed,
+                        "image-location": card.card_image_location,
+                    }               
             )
+        
         return jsonify(cards_response)
 
     elif request.method == "POST":
